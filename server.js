@@ -4,8 +4,9 @@ const Rollbar = require('rollbar')
 
 const app = express()
 app.use(express.json())
-app.use('/style', express.static('./public/styles.css'))
-app.use('/script', express.static('./public/index.js'))
+app.use('/', express.static('../public'))
+
+const ctrl = require('./controller.js')
 
 let rollbar = new Rollbar({
     accessToken: '8a4a2b56c0234d718a2dda1ea4a86dd6',
@@ -18,6 +19,7 @@ rollbar.log("yeeeehaw")
 app.get('/' , (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'))
 })
+app.post('/submit', ctrl.postFoodName())
 
 const port = process.env.PORT || 666
 
